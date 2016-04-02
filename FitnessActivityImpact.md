@@ -58,7 +58,7 @@ knit("C:/Users/MohammedAbdul/Desktop/Coursera/MachineLearning/FitnessActivityImp
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |.....                                                            |   8%
-## label: unnamed-chunk-183
+## label: unnamed-chunk-170
 ```
 
 ```
@@ -66,34 +66,34 @@ knit("C:/Users/MohammedAbdul/Desktop/Coursera/MachineLearning/FitnessActivityImp
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |..........                                                       |  15%
-## label: unnamed-chunk-184
+## label: unnamed-chunk-171
 ##   |                                                                         |............                                                     |  19%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |...............                                                  |  23%
-## label: unnamed-chunk-185
+## label: unnamed-chunk-172
 ##   |                                                                         |..................                                               |  27%
-## label: unnamed-chunk-186
+## label: unnamed-chunk-173
 ##   |                                                                         |....................                                             |  31%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |......................                                           |  35%
-## label: unnamed-chunk-187
+## label: unnamed-chunk-174
 ##   |                                                                         |.........................                                        |  38%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |............................                                     |  42%
-## label: unnamed-chunk-188
+## label: unnamed-chunk-175
 ##   |                                                                         |..............................                                   |  46%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |................................                                 |  50%
-## label: unnamed-chunk-189
+## label: unnamed-chunk-176
 ##   |                                                                         |...................................                              |  54%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |......................................                           |  58%
-## label: unnamed-chunk-190
+## label: unnamed-chunk-177
 ```
 
 ```
@@ -101,27 +101,27 @@ knit("C:/Users/MohammedAbdul/Desktop/Coursera/MachineLearning/FitnessActivityImp
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |..........................................                       |  65%
-## label: unnamed-chunk-191
+## label: unnamed-chunk-178
 ##   |                                                                         |.............................................                    |  69%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |................................................                 |  73%
-## label: unnamed-chunk-192
+## label: unnamed-chunk-179
 ##   |                                                                         |..................................................               |  77%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |....................................................             |  81%
-## label: unnamed-chunk-193
+## label: unnamed-chunk-180
 ##   |                                                                         |.......................................................          |  85%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |..........................................................       |  88%
-## label: unnamed-chunk-194
+## label: unnamed-chunk-181
 ##   |                                                                         |............................................................     |  92%
 ##   ordinary text without R code
 ## 
 ##   |                                                                         |..............................................................   |  96%
-## label: unnamed-chunk-195
+## label: unnamed-chunk-182
 ##   |                                                                         |.................................................................| 100%
 ##   ordinary text without R code
 ```
@@ -252,7 +252,7 @@ print(modfit$finalModel)
 fancyRpartPlot(modfit$finalModel) 
 ```
 
-![plot of chunk unnamed-chunk-177](figure/unnamed-chunk-177-1.png)
+![plot of chunk unnamed-chunk-164](figure/unnamed-chunk-164-1.png)
 
 **Implement RandomForest Algorithm using 5 fold cross validation**
 
