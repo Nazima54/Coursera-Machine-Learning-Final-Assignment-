@@ -1,0 +1,164 @@
+---
+title: "Fitness Activity Impact Prediction"
+author: "Coursera Student"
+
+output: html_document
+---
+## Objective
+
+**Instructions**
+
+One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants.
+
+
+**Background of the Project**
+
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
+
+**Data**
+
+The training data for this project are available here:
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+
+The test data are available here:
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
+
+**Goal of the Project**
+
+The goal of your project is to predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
+
+
+
+
+
+```{r}
+#Load the required Packages.
+library(knitr)
+library(markdown)
+library(caret)
+library(rpart)
+library(rattle)
+library(rpart.plot)
+library(randomForest)
+library(ElemStatLearn)
+knit("C:/Users/MohammedAbdul/Desktop/Coursera/MachineLearning/FitnessActivityImpact.Rmd")  # produces the md file
+
+```
+
+
+```{r}
+#Load the seed for any Random Number Generation
+set.seed(3241)
+```
+**Getting the data from the source**
+
+```{r}
+# Load and read  the dataset 
+
+# set the URL for the download
+UrlTrain <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+UrlTest  <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+
+# download the datasets
+train <- read.csv(url(UrlTrain))
+test  <- read.csv(url(UrlTest))
+dim(train)
+dim(test)
+```
+```{r}
+# Find the  observations with  total missing values
+sum(complete.cases(train))
+# This command gives the colums with names and its number of NA's values
+#colSums(is.na(train))
+
+```
+
+```{r}
+#clean the columns containing missing NA's
+
+training <- train[, colSums(is.na(train)) == 0] 
+testing <- test[, colSums(is.na(test)) == 0] 
+
+```
+
+```{r}
+#Get rid of columns with all NA's from the new data set
+
+classe <- training$classe
+Removedtrain <- grepl("^X|timestamp|window", names(training))
+Newtrain <- training[, ! Removedtrain]
+Cleanedtrain <- training[, sapply(training, is.numeric)]
+Cleanedtrain$classe <- classe
+Removedtest <- grepl("^X|timestamp|window", names(testing))
+Newtest <- testing[, !Removedtest]
+Cleanedtest <- testing[, sapply(testing, is.numeric)]
+dim(Cleanedtrain)
+dim(Cleanedtest)
+```
+
+**Slice the training dataset into 70:20**
+
+```{r}
+inTrain <- createDataPartition(y = Cleanedtrain$classe, p=0.70, list=F)
+trainingData <- Cleanedtrain[inTrain,]
+testingData <- Cleanedtrain[-inTrain,]
+```
+
+**ModelFit Data**
+
+```{r}
+# show fancyRpartPlot
+modfit <- train(classe ~.,method="rpart",data = trainingData)
+print(modfit$finalModel)
+fancyRpartPlot(modfit$finalModel) 
+```
+
+**Implement RandomForest Algorithm using 5 fold cross validation**
+
+```{r}
+#Predict model using Random Forest Algorithm
+Rf <- trainControl(method="cv", 5)
+Rfmodel <- train(classe ~ ., data=trainingData, method="rf", trControl= Rf, ntree=250)
+Rfmodel
+```
+**Using the Validation set predict the performance of the model**
+```{r}
+Rfpredict <- predict(Rfmodel, testingData)
+confusionMatrix(testingData$classe, Rfpredict)
+```
+
+```{r}
+accuracy <- postResample(Rfpredict,testingData$classe)
+accuracy
+```
+
+```{r}
+finalPredict <- 1 - as.numeric(confusionMatrix(testingData$classe,Rfpredict)$overall[1])
+finalPredict
+```
+ 
+**Estimated Accuracy is 99.97% and out of samplet error is 0.16%**
+
+**Test the Dataset**
+```{r}
+Finalresult <- predict(Rfmodel, Cleanedtest[, -length(names(Cleanedtest))])
+Finalresult
+
+```
+
+##Reference
+
+Ugulino, W.; Cardador, D.; Vega, K.; Velloso, E.; Milidiu, R.; Fuks, H. Wearable Computing: Accelerometers' Data Classification of Body Postures and Movements. Proceedings of 21st Brazilian Symposium on Artificial Intelligence. Advances in Artificial Intelligence - SBIA 2012. In: Lecture Notes in Computer Science. , pp. 52-61. Curitiba, PR: Springer Berlin / Heidelberg, 2012. ISBN 978-3-642-34458-9. DOI: 10.1007/978-3-642-34459-6_6. Cited by 2 (Google Scholar)
+
+**Read more: http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises#ixzz3jOpnStGb**
+
+
+
+
+
+
+
+
+
